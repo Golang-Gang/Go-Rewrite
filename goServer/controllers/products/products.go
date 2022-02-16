@@ -13,6 +13,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
+// Not necessary for application to work
 type Products struct {
 	Router *mux.Router
 	DB     *sql.DB
@@ -79,13 +80,13 @@ func AddRoutes(r *mux.Router, db *sql.DB) {
 	// DELETE /:id
 	r.HandleFunc("/{id:[0-9]+}", func (w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
-    id, err := strconv.Atoi(vars["id"])
+    id, err := strconv.Atoi(vars["id"]) // Converts from string to a number?
     if err != nil {
         respondWithError(w, http.StatusBadRequest, "Invalid Product ID")
         return
     }
 
-    p := product.Product{ID: id}
+    p := product.Product{ID: id} // creates an instance of our product struct and appends an id. 
     if err := p.DeleteProduct(db); err != nil {
         respondWithError(w, http.StatusInternalServerError, err.Error())
         return
@@ -114,7 +115,7 @@ func AddRoutes(r *mux.Router, db *sql.DB) {
 	}).Methods("POST")
 
 	// PUT /:id
-	r.HandleFunc("/{id:[0-9]+}", func (w http.ResponseWriter, r *http.Request) {
+	r.HandleFunc("/{id:[0-9]+}" /*<- Likely regex, ensures id is a series of numbers between 0 and 9.*/, func (w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id, err := strconv.Atoi(vars["id"])
     if err != nil {

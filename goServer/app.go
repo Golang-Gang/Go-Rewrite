@@ -7,6 +7,7 @@ import (
 
 	"net/http"
 
+	catsController "github.com/Golang-Gang/Go-Rewrite/goServer/controllers/cats"
 	productsController "github.com/Golang-Gang/Go-Rewrite/goServer/controllers/products"
 	"github.com/gorilla/mux"
 	_ "github.com/lib/pq"
@@ -32,10 +33,12 @@ func (a *App) Initialize(user, password, dbname string) {
 }
 
 func (a *App) Run(port string) {
-	log.Fatal(http.ListenAndServe(":8080", a.Router))
+	log.Fatal(http.ListenAndServe(":" + port, a.Router))
 }
 
 func (a *App) initializeRoutes() {
 	s := a.Router.PathPrefix("/products").Subrouter()
 	productsController.AddRoutes(s, a.DB)
+	catSubRouter := a.Router.PathPrefix("/cats").Subrouter()
+	catsController.AddRoutes(catSubRouter, a.DB)
 }

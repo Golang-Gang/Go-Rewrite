@@ -14,7 +14,8 @@ describe('backend routes', () => {
   });
 
   it('can get all cats', async () => {
-    const { body } = await request(url).get('/cats');
+    const res = await request(url).get('/cats');
+    const body = res.body;
 
     expect(body).toEqual(seedData);
   });
@@ -36,7 +37,7 @@ describe('backend routes', () => {
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json');
 
-    data.id = '4';
+    data.id = 4;
     expect(body).toEqual(data);
   });
 
@@ -51,7 +52,7 @@ describe('backend routes', () => {
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json');
 
-    data.id = '1';
+    data.id = 1;
     expect(body).toEqual(data);
 
   });
@@ -69,17 +70,17 @@ describe('backend routes', () => {
 
 const seedData = [
   {
-    id: '1',
+    id: 1,
     name: 'kevin',
     weight: 1.2
   },
   {
-    id: '2',
+    id: 2,
     name: 'chungus',
     weight: 42
   },
   {
-    id: '3',
+    id: 3,
     name: 'pico',
     weight: 0.001
   }

@@ -7,6 +7,7 @@ import (
 
 	"net/http"
 
+	dogsController "github.com/Golang-Gang/Go-Rewrite/go/controllers/dogs"
 	productsController "github.com/Golang-Gang/Go-Rewrite/go/controllers/products"
 	"github.com/gorilla/mux"
 	_ "github.com/lib/pq"
@@ -38,4 +39,6 @@ func (a *App) Run(addr string) {
 func (a *App) initializeRoutes() {
 	s := a.Router.PathPrefix("/products").Subrouter()
 	productsController.AddRoutes(s, a.DB)
+	dogSubRouter := a.Router.PathPrefix("/dogs").Subrouter()
+	dogsController.AddRoutes(dogSubRouter, a.DB)
 }

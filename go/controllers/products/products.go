@@ -55,6 +55,8 @@ func AddRoutes(r *mux.Router, db *sql.DB) {
 
 	}).Methods("GET")
 
+
+    
 	// GET /
 	r.HandleFunc("", func(w http.ResponseWriter, r *http.Request) {
     count, _ := strconv.Atoi(r.FormValue("count"))
@@ -76,10 +78,12 @@ func AddRoutes(r *mux.Router, db *sql.DB) {
     respondWithJSON(w, http.StatusOK, products)
 	}).Methods("GET")
 
+
+
 	// DELETE /:id
 	r.HandleFunc("/{id:[0-9]+}", func (w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
-    id, err := strconv.Atoi(vars["id"])
+    id, err := strconv.Atoi(vars["id"])// converting from a string to a number
     if err != nil {
         respondWithError(w, http.StatusBadRequest, "Invalid Product ID")
         return
@@ -93,6 +97,8 @@ func AddRoutes(r *mux.Router, db *sql.DB) {
 
     respondWithJSON(w, http.StatusOK, map[string]string{"result": "success"})
 	}).Methods("DELETE")
+
+
 
 	// POST /
 	r.HandleFunc("", func (w http.ResponseWriter, r *http.Request) {

@@ -14,6 +14,7 @@ func main() {
 		os.Getenv("APP_DB_PASSWORD"),
 		os.Getenv("APP_DB_NAME"))
 
+	setupTables(a.DB)
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"

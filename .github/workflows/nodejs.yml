@@ -17,7 +17,7 @@ jobs:
       with:
         go-version: 1.17.7
     - run: npm ci
-    - run: npm test
+    - run: go test -v
       env:
         CI: true
         DATABASE_URL: postgres://alchemy:alchemy@postgres:5432/alchemy

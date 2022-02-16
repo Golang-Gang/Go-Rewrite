@@ -24,3 +24,4 @@ jobs:
         APP_DB_USERNAME: postgres
         APP_DB_PASSWORD: postgres
         APP_DB_NAME: postgres
+        PORT: 7890

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Go-Rewrite
 
 ## Setup Steps
@@ -24,3 +25,12 @@
   - [Importing Local Files in Golang](https://www.youtube.com/watch?v=Nv8J_Ruc280)
   - [Golang Error Handling](https://youtu.be/VMveb4GqRck)
   - [Golang Middleware](https://youtu.be/HOlklLaFgfM)
+=======
+# backend-template
+
+A starter template for Express projects at Alchemy Code Lab. We'll be using this in the "Backend / API" portion of the program.
+
+## Getting Started
+
+Click "Use this template" to create a new repo with your user as the owner. Then clone down the newly created repo and get hacking!
+>>>>>>> 1d69ac3f2926b2a38ca3fceeb653fd5b00450456

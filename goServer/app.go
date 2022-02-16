@@ -1,4 +1,4 @@
-package main
+package goServer
 
 import (
 	"database/sql"
@@ -7,7 +7,7 @@ import (
 
 	"net/http"
 
-	productsController "github.com/Golang-Gang/Go-Rewrite/go/controllers/products"
+	productsController "github.com/Golang-Gang/Go-Rewrite/goServer/controllers/products"
 	"github.com/gorilla/mux"
 	_ "github.com/lib/pq"
 )
@@ -31,8 +31,8 @@ func (a *App) Initialize(user, password, dbname string) {
 	a.initializeRoutes()
 }
 
-func (a *App) Run(addr string) {
-	log.Fatal(http.ListenAndServe(":8010", a.Router))
+func (a *App) Run(port string) {
+	log.Fatal(http.ListenAndServe(":8080", a.Router))
 }
 
 func (a *App) initializeRoutes() {

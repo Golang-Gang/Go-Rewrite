@@ -1,7 +1,8 @@
 const pool = require('../lib/utils/pool');
 const setup = require('../data/setup');
 const request = require('supertest');
-const app = require('../lib/app');
+
+const url = `http://localhost:${process.env.PORT}`;
 
 describe('backend routes', () => {
   beforeEach(() => {
@@ -13,13 +14,13 @@ describe('backend routes', () => {
   });
 
   it('can get all cats', async () => {
-    const { body } = await request(app).get('/cats');
+    const { body } = await request(url).get('/cats');
 
     expect(body).toEqual(seedData);
   });
 
   it('can get a cat', async () => {
-    const { body } = await request(app).get('/cats/1');
+    const { body } = await request(url).get('/cats/1');
 
     expect(body).toEqual(seedData[0]);
   });
@@ -30,7 +31,7 @@ describe('backend routes', () => {
       weight: 1.5
     };
 
-    const { body } = await request(app).post('/cats')
+    const { body } = await request(url).post('/cats')
       .send(data)
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json');
@@ -45,7 +46,7 @@ describe('backend routes', () => {
       weight: 1.7
     };
 
-    const { body } = await request(app).put('/cats/1')
+    const { body } = await request(url).put('/cats/1')
       .send(data)
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json');
@@ -56,9 +57,9 @@ describe('backend routes', () => {
   });
 
   it('can delete a cat', async () => {
-    await request(app).delete('/cats/1');
+    await request(url).delete('/cats/1');
 
-    const { body } = await request(app).get('/cats');
+    const { body } = await request(url).get('/cats');
 
     // eslint-disable-next-line no-unused-vars
     const [deleted, ...expected] = [...seedData];

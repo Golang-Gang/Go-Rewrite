@@ -1,4 +1,4 @@
-package main
+package goServer
 
 import (
 	"log"
@@ -6,7 +6,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func setupTables(db *sql.DB) {
+func SetupTables(db *sql.DB) {
 	if _, err := db.Exec(tableCreationQuery); err != nil {
 			log.Fatal(err)
 	}

@@ -2,6 +2,7 @@
 
 ## Setup Steps
 
+- Clone repo to local system.
 - Copy and update `.env` file.
 - In the Command Line:
   - `go get github.com/gorilla/mux`

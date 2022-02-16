@@ -21,3 +21,6 @@ jobs:
       env:
         CI: true
         DATABASE_URL: postgres://alchemy:alchemy@postgres:5432/alchemy
+        APP_DB_USERNAME: postgres
+        APP_DB_PASSWORD: postgres
+        APP_DB_NAME: postgres

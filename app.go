@@ -7,7 +7,7 @@ import (
 
 	"net/http"
 
-	productsController "github.com/Golang-Gang/Go-Rewrite/controllers/products"
+	productsController "github.com/Golang-Gang/Go-Rewrite/go/controllers/products"
 	"github.com/gorilla/mux"
 	_ "github.com/lib/pq"
 )

@@ -39,6 +39,6 @@ func (a *App) Run(addr string) {
 func (a *App) initializeRoutes() {
 	s := a.Router.PathPrefix("/products").Subrouter()
 	productsController.AddRoutes(s, a.DB)
-	catsSubRouter := a.Router.PathPrefix("/cats").Subrouter()
-	catsController.AddRoutes(catsSubRouter, a.DB)
+	catSubRouter := a.Router.PathPrefix("/cats").Subrouter()
+	catsController.AddRoutes(catSubRouter, a.DB)
 }

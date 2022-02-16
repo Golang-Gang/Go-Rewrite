@@ -13,6 +13,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
+// Not necessary for application to work
 type Products struct {
 	Router *mux.Router
 	DB     *sql.DB

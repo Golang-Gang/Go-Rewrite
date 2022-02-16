@@ -1,5 +1,7 @@
+// declare package
 package cats
 
+// import packages/modules
 import (
 	"database/sql"
 	"fmt"
@@ -13,12 +15,8 @@ import (
 	_ "github.com/lib/pq"
 )
 
-// Is this necessary?
-type Cats struct {
-	Router *mux.Router
-	DB     *sql.DB
-}
-
+// accessible via Cats.respondWithError
+// the camelcase capitalization indicates a private method, meaning it can only be accessed from within the cat struct
 func respondWithError(w http.ResponseWriter, code int, message string) {
 	respondWithJSON(w, code, map[string]string{"error": message})
 }

@@ -1,4 +1,4 @@
-package products
+package cats
 
 import (
 	"database/sql"
@@ -8,12 +8,13 @@ import (
 	"net/http"
 	"strconv"
 
-	product "github.com/Golang-Gang/Go-Rewrite/go/models/product"
+	cat "github.com/Golang-Gang/Go-Rewrite/go/models/cat"
 	"github.com/gorilla/mux"
 	_ "github.com/lib/pq"
 )
 
-type Products struct {
+// Is this necessary?
+type Cats struct {
 	Router *mux.Router
 	DB     *sql.DB
 }
@@ -36,44 +37,35 @@ func AddRoutes(r *mux.Router, db *sql.DB) {
 		vars := mux.Vars(r)
 		id, err := strconv.Atoi(vars["id"])
 		if err != nil {
-				respondWithError(w, http.StatusBadRequest, "Invalid product ID")
+				respondWithError(w, http.StatusBadRequest, "Invalid cat ID")
 				return
 		}
 	
-		pm := product.Product{ID: id}
-		if err := pm.GetProduct(db); err != nil {
+		catModelInstance := cat.Cat{ID: id}
+		if err := catModelInstance.GetCat(db); err != nil {
 				switch err {
 				case sql.ErrNoRows:
-						respondWithError(w, http.StatusNotFound, "Product not found")
+						respondWithError(w, http.StatusNotFound, "Cat not found")
 				default:
 						respondWithError(w, http.StatusInternalServerError, err.Error())
 				}
 				return
 		}
 	
-		respondWithJSON(w, http.StatusOK, pm)
+		respondWithJSON(w, http.StatusOK, catModelInstance)
 
 	}).Methods("GET")
 
 	// GET /
 	r.HandleFunc("", func(w http.ResponseWriter, r *http.Request) {
-    count, _ := strconv.Atoi(r.FormValue("count"))
-    start, _ := strconv.Atoi(r.FormValue("start"))
 
-    if count > 10 || count < 1 {
-        count = 10
-    }
-    if start < 0 {
-        start = 0
-    }
-
-    products, err := product.GetProducts(db, start, count)
+    cats, err := cat.GetCats(db)
     if err != nil {
         respondWithError(w, http.StatusInternalServerError, err.Error())
         return
     }
 
-    respondWithJSON(w, http.StatusOK, products)
+    respondWithJSON(w, http.StatusOK, cats)
 	}).Methods("GET")
 
 	// DELETE /:id
@@ -81,12 +73,12 @@ func AddRoutes(r *mux.Router, db *sql.DB) {
     vars := mux.Vars(r)
     id, err := strconv.Atoi(vars["id"]) // Converts from string to a number?
     if err != nil {
-        respondWithError(w, http.StatusBadRequest, "Invalid Product ID")
+        respondWithError(w, http.StatusBadRequest, "Invalid Cat ID")
         return
     }
 
-    p := product.Product{ID: id} // creates an instance of our product struct and appends an id. 
-    if err := p.DeleteProduct(db); err != nil {
+    p := cat.Cat{ID: id} // creates an instance of our cat struct and appends an id. 
+    if err := p.DeleteCat(db); err != nil {
         respondWithError(w, http.StatusInternalServerError, err.Error())
         return
     }
@@ -97,20 +89,20 @@ func AddRoutes(r *mux.Router, db *sql.DB) {
 	// POST /
 	r.HandleFunc("", func (w http.ResponseWriter, r *http.Request) {
 		fmt.Println("this ran")
-    var p product.Product
+    var cat cat.Cat
     decoder := json.NewDecoder(r.Body)
-    if err := decoder.Decode(&p); err != nil {
+    if err := decoder.Decode(&cat); err != nil {
         respondWithError(w, http.StatusBadRequest, "Invalid request payload")
         return
     }
     defer r.Body.Close()
 
-    if err := p.CreateProduct(db); err != nil {
+    if err := cat.CreateCat(db); err != nil {
         respondWithError(w, http.StatusInternalServerError, err.Error())
         return
     }
 
-    respondWithJSON(w, http.StatusCreated, p)
+    respondWithJSON(w, http.StatusCreated, cat)
 	}).Methods("POST")
 
 	// PUT /:id
@@ -118,24 +110,24 @@ func AddRoutes(r *mux.Router, db *sql.DB) {
     vars := mux.Vars(r)
     id, err := strconv.Atoi(vars["id"])
     if err != nil {
-        respondWithError(w, http.StatusBadRequest, "Invalid product ID")
+        respondWithError(w, http.StatusBadRequest, "Invalid Cat ID")
         return
     }
 
-    var p product.Product
+    var cat cat.Cat
     decoder := json.NewDecoder(r.Body)
-    if err := decoder.Decode(&p); err != nil {
-        respondWithError(w, http.StatusBadRequest, "Invalid resquest payload")
+    if err := decoder.Decode(&cat); err != nil {
+        respondWithError(w, http.StatusBadRequest, "Invalid request payload")
         return
     }
     defer r.Body.Close()
-    p.ID = id
+    cat.ID = id
 
-    if err := p.UpdateProduct(db); err != nil {
+    if err := cat.UpdateCat(db); err != nil {
         respondWithError(w, http.StatusInternalServerError, err.Error())
         return
     }
 
-    respondWithJSON(w, http.StatusOK, p)
+    respondWithJSON(w, http.StatusOK, cat)
 	}).Methods("PUT")
 }

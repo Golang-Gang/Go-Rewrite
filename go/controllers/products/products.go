@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"strconv"
 
-	product "github.com/Golang-Gang/Go-Rewrite/models/product"
+	product "github.com/Golang-Gang/Go-Rewrite/go/models/product"
 	"github.com/gorilla/mux"
 	_ "github.com/lib/pq"
 )

@@ -3,8 +3,7 @@ package main
 
 import (
     "os"
-    "testing"   
-    "log"
+    "testing"
 
     "net/http"
     "net/http/httptest"
@@ -23,35 +22,12 @@ func TestMain(m *testing.M) {
         os.Getenv("APP_DB_PASSWORD"),
         os.Getenv("APP_DB_NAME"))
 
-    ensureTableExists()
+    setupTables(a.DB)
     code := m.Run()
-    clearTable()
     os.Exit(code)
 }
 
-func ensureTableExists() {
-    if _, err := a.DB.Exec(tableCreationQuery); err != nil {
-        log.Fatal(err)
-    }
-}
-
-func clearTable() {
-    a.DB.Exec("DELETE FROM products")
-    a.DB.Exec("ALTER SEQUENCE products_id_seq RESTART WITH 1")
-}
-
-const tableCreationQuery = `CREATE TABLE IF NOT EXISTS products
-(
-    id SERIAL,
-    name TEXT NOT NULL,
-    price NUMERIC(10,2) NOT NULL DEFAULT 0.00,
-    CONSTRAINT products_pkey PRIMARY KEY (id)
-)`
-
-
 func TestEmptyTable(t *testing.T) {
-    clearTable()
-
     req, _ := http.NewRequest("GET", "/products", nil)
     response := executeRequest(req)
 
@@ -79,7 +55,7 @@ func checkResponseCode(t *testing.T, expected, actual int) {
 
 
 func TestGetNonExistentProduct(t *testing.T) {
-    clearTable()
+    setupTables(a.DB)
 
     req, _ := http.NewRequest("GET", "/products/11", nil)
     response := executeRequest(req)
@@ -96,7 +72,7 @@ func TestGetNonExistentProduct(t *testing.T) {
 
 func TestCreateProduct(t *testing.T) {
 
-    clearTable()
+    setupTables(a.DB)
 
     var jsonStr = []byte(`{"name":"test product", "price": 11.22}`)
     req, _ := http.NewRequest("POST", "/products", bytes.NewBuffer(jsonStr))
@@ -125,7 +101,7 @@ func TestCreateProduct(t *testing.T) {
 
 
 func TestGetProduct(t *testing.T) {
-    clearTable()
+    setupTables(a.DB)
     addProducts(1)
 
     req, _ := http.NewRequest("GET", "/products/1", nil)
@@ -149,7 +125,7 @@ func addProducts(count int) {
 
 func TestUpdateProduct(t *testing.T) {
 
-    clearTable()
+    setupTables(a.DB)
     addProducts(1)
 
     req, _ := http.NewRequest("GET", "/products/1", nil)
@@ -183,7 +159,7 @@ func TestUpdateProduct(t *testing.T) {
 
 
 func TestDeleteProduct(t *testing.T) {
-    clearTable()
+    setupTables(a.DB)
     addProducts(1)
 
     req, _ := http.NewRequest("GET", "/products/1", nil)

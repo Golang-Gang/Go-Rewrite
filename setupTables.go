@@ -1,8 +1,9 @@
 package main
 
 import (
-	"log"
 	"database/sql"
+	"log"
+
 	_ "github.com/lib/pq"
 )
 
@@ -16,6 +17,7 @@ const tableCreationQuery = `
 
 DROP TABLE IF EXISTS products CASCADE;
 DROP TABLE IF EXISTS dogs CASCADE;
+DROP TABLE IF EXISTS cats CASCADE;
 
 CREATE TABLE IF NOT EXISTS products
 (
@@ -28,6 +30,12 @@ CREATE TABLE dogs (
 	id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
 	name TEXT NOT NULL,
 	is_good_boy BOOLEAN NOT NULL
+
+CREATE TABLE IF NOT EXISTS cats
+(
+	id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+	name TEXT NOT NULL,
+	weight FLOAT NOT NULL
 );
 
 `

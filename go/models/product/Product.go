@@ -1,8 +1,9 @@
 package product
 
 import (
-    "database/sql"
+	"database/sql"
 )
+
 
 type Product struct {
     ID    int     `json:"id"`

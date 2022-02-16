@@ -13,7 +13,8 @@ func main() {
 	a.Initialize(
 		os.Getenv("APP_DB_USERNAME"),
 		os.Getenv("APP_DB_PASSWORD"),
-		os.Getenv("APP_DB_NAME"))
+		os.Getenv("APP_DB_NAME"),
+		os.Getenv("APP_DB_HOST"))
 
 	app.SetupTables(a.DB)
 	port := os.Getenv("PORT")

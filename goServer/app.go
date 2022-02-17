@@ -38,7 +38,7 @@ func (a *App) Initialize(user, password, dbname, host string) {
 	//get the heroku connection string hopefully
 	envConString := os.Getenv("DATABASE_URL")
 	if	envConString != "" {
-		connectionString = envConString + "sslmode=" + os.Getenv("DB_SSL");
+		connectionString = envConString;
 	}
 	connectionString = connectionString + " sslmode=" + os.Getenv("DB_SSL");
 	log.Println("db con string: ");

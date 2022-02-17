@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"os"
 
 	"net/http"
 
@@ -24,6 +25,12 @@ func (a *App) Initialize(user, password, dbname string) {
 	connectionString :=
 		fmt.Sprintf("user=%s password=%s dbname=%s sslmode=disable", user, password, dbname)
 
+	//get the heroku connection string hopefully
+	envConString := os.Getenv("DATABASE_URL")
+	if	envConString != "" {
+		connectionString = envConString;
+	}
+	
 	var err error
 	a.DB, err = sql.Open("postgres", connectionString)
 	if err != nil {

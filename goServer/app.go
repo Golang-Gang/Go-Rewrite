@@ -6,11 +6,12 @@ import (
 	"log"
 
 	"net/http"
-
-	catsController "github.com/Golang-Gang/Go-Rewrite/goServer/controllers/cats"
-	productsController "github.com/Golang-Gang/Go-Rewrite/goServer/controllers/products"
 	"github.com/gorilla/mux"
 	_ "github.com/lib/pq"
+
+	catsController "github.com/Golang-Gang/Go-Rewrite/goServer/controllers/cats"
+	dogsController "github.com/Golang-Gang/Go-Rewrite/goServer/controllers/dogs"
+	productsController "github.com/Golang-Gang/Go-Rewrite/goServer/controllers/products"
 	dbResetController "github.com/Golang-Gang/Go-Rewrite/goServer/controllers/reset"
 )
 
@@ -40,8 +41,13 @@ func (a *App) Run(port string) {
 func (a *App) initializeRoutes() {
 	s := a.Router.PathPrefix("/products").Subrouter()
 	productsController.AddRoutes(s, a.DB)
+
 	catSubRouter := a.Router.PathPrefix("/cats").Subrouter()
 	catsController.AddRoutes(catSubRouter, a.DB)
+
+	dogSubRouter := a.Router.PathPrefix("/dogs").Subrouter()
+	dogsController.AddRoutes(dogSubRouter, a.DB)
+
 	resetRouter := a.Router.PathPrefix("/reset").Subrouter()
 	dbResetController.AddRoutes(resetRouter, a.DB)
 }

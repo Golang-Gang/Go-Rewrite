@@ -58,8 +58,6 @@ describe('backend routes', () => {
 
     // eslint-disable-next-line no-unused-vars
     const [deleted, ...expected] = [...seedData];
-    console.log(expected);
-    console.log(body);
     expect(body).toEqual(expected);
   });
 });

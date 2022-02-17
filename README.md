@@ -12,7 +12,6 @@ For this Alchemy Code Lab assignment, we were tasked with rewritting any previou
   - `go get github.com/gorilla/mux`
   - `go get github.com/joho/godotenv`
   - `go get github.com/lib/pq`
-  - `go test -v` to run tests.
 
 ## Execution and Testing
 

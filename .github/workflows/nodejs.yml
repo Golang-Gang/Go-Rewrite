@@ -1,6 +1,7 @@
 name: Jest Tests
 
 on: [push]
+env: [go-rewrite]
 jobs:
   build:
     runs-on: ubuntu-latest

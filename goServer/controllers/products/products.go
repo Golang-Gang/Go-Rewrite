@@ -8,11 +8,12 @@ import (
 	"net/http"
 	"strconv"
 
-	dog "github.com/Golang-Gang/Go-Rewrite/go/models/dog"
+	product "github.com/Golang-Gang/Go-Rewrite/goServer/models/product"
 	"github.com/gorilla/mux"
 	_ "github.com/lib/pq"
 )
 
+// Not necessary for application to work
 type Products struct {
 	Router *mux.Router
 	DB     *sql.DB
@@ -40,8 +41,8 @@ func AddRoutes(r *mux.Router, db *sql.DB) {
 				return
 		}
 	
-		pm := dog.Dog{ID: id}
-		if err := pm.GetDog(db); err != nil {
+		pm := product.Product{ID: id}
+		if err := pm.GetProduct(db); err != nil {
 				switch err {
 				case sql.ErrNoRows:
 						respondWithError(w, http.StatusNotFound, "Product not found")
@@ -69,13 +70,13 @@ func AddRoutes(r *mux.Router, db *sql.DB) {
         start = 0
     }
 
-    dogs, err := dog.GetDogs(db, start, count)
+    products, err := product.GetProducts(db, start, count)
     if err != nil {
         respondWithError(w, http.StatusInternalServerError, err.Error())
         return
     }
 
-    respondWithJSON(w, http.StatusOK, dogs)
+    respondWithJSON(w, http.StatusOK, products)
 	}).Methods("GET")
 
 
@@ -85,12 +86,12 @@ func AddRoutes(r *mux.Router, db *sql.DB) {
     vars := mux.Vars(r)
     id, err := strconv.Atoi(vars["id"])// converting from a string to a number
     if err != nil {
-        respondWithError(w, http.StatusBadRequest, "Invalid Doggie ID")
+        respondWithError(w, http.StatusBadRequest, "Invalid Product ID")
         return
     }
 
-    d := dog.Dog{ID: id}
-    if err := d.DeleteDog(db); err != nil {
+    p := product.Product{ID: id} // creates an instance of our product struct and appends an id. 
+    if err := p.DeleteProduct(db); err != nil {
         respondWithError(w, http.StatusInternalServerError, err.Error())
         return
     }
@@ -103,45 +104,45 @@ func AddRoutes(r *mux.Router, db *sql.DB) {
 	// POST /
 	r.HandleFunc("", func (w http.ResponseWriter, r *http.Request) {
 		fmt.Println("this ran")
-    var d dog.Dog
+    var p product.Product
     decoder := json.NewDecoder(r.Body)
-    if err := decoder.Decode(&d); err != nil {
+    if err := decoder.Decode(&p); err != nil {
         respondWithError(w, http.StatusBadRequest, "Invalid request payload")
         return
     }
     defer r.Body.Close()
 
-    if err := d.CreateDog(db); err != nil {
+    if err := p.CreateProduct(db); err != nil {
         respondWithError(w, http.StatusInternalServerError, err.Error())
         return
     }
 
-    respondWithJSON(w, http.StatusCreated, d)
+    respondWithJSON(w, http.StatusCreated, p)
 	}).Methods("POST")
 
 	// PUT /:id
-	r.HandleFunc("/{id:[0-9]+}", func (w http.ResponseWriter, r *http.Request) {
+	r.HandleFunc("/{id:[0-9]+}" /*<- Likely regex, ensures id is a series of numbers between 0 and 9.*/, func (w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id, err := strconv.Atoi(vars["id"])
     if err != nil {
-        respondWithError(w, http.StatusBadRequest, "Invalid doggie ID")
+        respondWithError(w, http.StatusBadRequest, "Invalid product ID")
         return
     }
 
-    var d dog.Dog
+    var p product.Product
     decoder := json.NewDecoder(r.Body)
-    if err := decoder.Decode(&d); err != nil {
+    if err := decoder.Decode(&p); err != nil {
         respondWithError(w, http.StatusBadRequest, "Invalid resquest payload")
         return
     }
     defer r.Body.Close()
-    d.ID = id
+    p.ID = id
 
-    if err := d.UpdateDog(db); err != nil {
+    if err := p.UpdateProduct(db); err != nil {
         respondWithError(w, http.StatusInternalServerError, err.Error())
         return
     }
 
-    respondWithJSON(w, http.StatusOK, d)
+    respondWithJSON(w, http.StatusOK, p)
 	}).Methods("PUT")
 }

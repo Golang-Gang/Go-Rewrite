@@ -17,7 +17,7 @@ func (d *Dog) GetDog(db *sql.DB) error {
 
 func (d *Dog) UpdateDog(db *sql.DB) error {
     _, err :=
-        db.Exec("UPDATE dogs SET name=$1, price=$2 WHERE id=$3",
+        db.Exec("UPDATE dogs SET name=$1, is_good_boy=$2 WHERE id=$3",
             d.Name, d.IsGoodBoy, d.ID)
 
     return err
@@ -43,7 +43,7 @@ func (d *Dog) CreateDog(db *sql.DB) error {
 
 func GetDogs(db *sql.DB, start, count int) ([]Dog, error) {
     rows, err := db.Query(
-        "SELECT id, name,  is_good_boy FROM dogs LIMIT $1 OFFSET $2",
+        "SELECT id, name, is_good_boy FROM dogs LIMIT $1 OFFSET $2",
         count, start)
 
     if err != nil {

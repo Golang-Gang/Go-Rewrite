@@ -1,9 +1,9 @@
 name: Jest Tests
 
 on: [push]
-environment: [go-rewrite]
 jobs:
   build:
+    environment: [go-rewrite]
     runs-on: ubuntu-latest
     container: node:latest
     services:

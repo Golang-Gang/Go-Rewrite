@@ -1,4 +1,4 @@
-package goServer
+package setup
 
 import (
 	"database/sql"

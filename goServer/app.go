@@ -11,6 +11,7 @@ import (
 	productsController "github.com/Golang-Gang/Go-Rewrite/goServer/controllers/products"
 	"github.com/gorilla/mux"
 	_ "github.com/lib/pq"
+	dbResetController "github.com/Golang-Gang/Go-Rewrite/goServer/controllers/reset"
 )
 
 type App struct {
@@ -41,4 +42,6 @@ func (a *App) initializeRoutes() {
 	productsController.AddRoutes(s, a.DB)
 	catSubRouter := a.Router.PathPrefix("/cats").Subrouter()
 	catsController.AddRoutes(catSubRouter, a.DB)
+	resetRouter := a.Router.PathPrefix("/reset").Subrouter()
+	dbResetController.AddRoutes(resetRouter, a.DB)
 }

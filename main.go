@@ -5,6 +5,7 @@ import (
 
 	"github.com/joho/godotenv"
 	app "github.com/Golang-Gang/Go-Rewrite/goServer"
+	setup "github.com/Golang-Gang/Go-Rewrite/goServer/setup"
 )
 
 func main() {
@@ -16,7 +17,7 @@ func main() {
 		os.Getenv("APP_DB_NAME"),
 		os.Getenv("APP_DB_HOST"))
 
-	app.SetupTables(a.DB)
+	setup.SetupTables(a.DB)
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"

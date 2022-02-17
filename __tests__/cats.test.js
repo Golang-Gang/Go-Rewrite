@@ -1,16 +1,10 @@
-const pool = require('../lib/utils/pool');
-const setup = require('../data/setup');
 const request = require('supertest');
 
 const url = `http://localhost:${process.env.PORT}`;
 
 describe('backend routes', () => {
-  beforeEach(() => {
-    return setup(pool);
-  });
-
-  afterAll(() => {
-    pool.end();
+  beforeEach(async () => {
+    await request(url).get('/reset');
   });
 
   it('can get all cats', async () => {
@@ -64,6 +58,8 @@ describe('backend routes', () => {
 
     // eslint-disable-next-line no-unused-vars
     const [deleted, ...expected] = [...seedData];
+    console.log(expected);
+    console.log(body);
     expect(body).toEqual(expected);
   });
 });

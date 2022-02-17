@@ -82,7 +82,13 @@ func AddRoutes(r *mux.Router, db *sql.DB) {
 			return
 		}
 
-		respondWithJSON(w, http.StatusOK, map[string]string{"result": "success"})
+        cats, err := cat.GetCats(db)
+		if err != nil {
+			respondWithError(w, http.StatusInternalServerError, err.Error())
+			return
+		}
+
+		respondWithJSON(w, http.StatusOK, cats)
 	}).Methods("DELETE")
 
 	// POST /

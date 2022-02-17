@@ -40,9 +40,9 @@ func (a *App) Initialize(user, password, dbname, host string) {
 	if	envConString != "" {
 		connectionString = envConString + "sslmode=" + os.Getenv("DB_SSL");
 	}
-	connectionString = connectionString + "sslmode=" + os.Getenv("DB_SSL");
-	log.Println("env con string: ");
-	log.Println(addSpaces(envConString));
+	connectionString = connectionString + " sslmode=" + os.Getenv("DB_SSL");
+	log.Println("db con string: ");
+	log.Println(addSpaces(connectionString));
 	var err error
 	a.DB, err = sql.Open("postgres", connectionString)
 	if err != nil {

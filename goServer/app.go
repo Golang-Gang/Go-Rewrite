@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"bytes"
 
 	"net/http"
 	"github.com/gorilla/mux"
@@ -21,6 +22,15 @@ type App struct {
 	DB     *sql.DB
 }
 
+func addSpaces(s string) string {
+	buf := &bytes.Buffer{}
+	for _, rune := range s {
+			buf.WriteRune(rune)
+			buf.WriteRune(' ')
+	}
+	return buf.String()
+}
+
 func (a *App) Initialize(user, password, dbname, host string) {
 	connectionString :=
 		fmt.Sprintf("user=%s password=%s dbname=%s host=%s sslmode=disable", user, password, dbname, host)
@@ -31,7 +41,7 @@ func (a *App) Initialize(user, password, dbname, host string) {
 		connectionString = envConString + "sslmode=" + os.Getenv("DB_SSL");
 	}
 	log.Println("env con string: ");
-	log.Println(envConString);
+	log.Println(addSpaces(envConString));
 	var err error
 	a.DB, err = sql.Open("postgres", connectionString)
 	if err != nil {

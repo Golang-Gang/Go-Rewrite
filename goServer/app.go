@@ -40,6 +40,7 @@ func (a *App) Initialize(user, password, dbname, host string) {
 	if	envConString != "" {
 		connectionString = envConString + "sslmode=" + os.Getenv("DB_SSL");
 	}
+	envConString = envConString + "sslmode=" + os.Getenv("DB_SSL");
 	log.Println("env con string: ");
 	log.Println(addSpaces(envConString));
 	var err error

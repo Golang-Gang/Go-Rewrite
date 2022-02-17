@@ -30,7 +30,8 @@ func (a *App) Initialize(user, password, dbname string) {
 	if	envConString != "" {
 		connectionString = envConString;
 	}
-	
+	fmt.Println("env con string: ");
+	fmt.Println(envConString);
 	var err error
 	a.DB, err = sql.Open("postgres", connectionString)
 	if err != nil {

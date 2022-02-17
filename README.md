@@ -1,5 +1,9 @@
 # Go-Rewrite
 
+## Background
+
+For this Alchemy Code Lab assignment, we were tasked with rewritting any previous lab in a new http framework. Our team wanted a bigger challenge, so we rewrote the assignment in Go. We got permission to do this, but only if we met the other requirements, which included making the existing JS tests pass and structuring our code to have multiple controllers and db models. 
+
 ## Setup Steps
 
 - Clone repo to local system.
@@ -9,6 +13,12 @@
   - `go get github.com/joho/godotenv`
   - `go get github.com/lib/pq`
   - `go test -v` to run tests.
+
+## Execution and Testing
+
+- Execute: `go run main.go`
+- Test: `go test -v`
+
 
 ## Resources
 

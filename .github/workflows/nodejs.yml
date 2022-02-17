@@ -3,6 +3,7 @@ name: Jest Tests
 on: [push]
 jobs:
   build:
+    environment: go-rewrite
     runs-on: ubuntu-latest
     container: node:latest
     services:
@@ -26,3 +27,4 @@ jobs:
         APP_DB_NAME: postgres
         APP_DB_HOST: postgres
         PORT: 7890
+        DB_SSL: ${{ secrets.DB_SSL }}
